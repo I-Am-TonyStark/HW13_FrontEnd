@@ -7,6 +7,20 @@
     <groupId>com.mamalimomen</groupId>
     <artifactId>HW13_FrontEnd</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <name>INSTAGRAM</name>
+    <url>http://www.mamalimomen.com</url>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>14</maven.compiler.source>
+        <maven.compiler.targer>14</maven.compiler.targer>
+    </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.lambdaworks</groupId>
+            <artifactId>scrypt</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+    </dependencies>
 </project>
