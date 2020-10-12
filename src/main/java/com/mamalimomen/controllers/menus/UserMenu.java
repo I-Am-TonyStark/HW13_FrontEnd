@@ -18,7 +18,7 @@ public class UserMenu<A extends AccountDTO> extends AbstractMenu<A> {
 
     @Override
     public void routerMenu() {
-        while (true) {
+        while (getAccount() != null) {
             switch (showMenu()) {
                 case 1:
                     Menus.changeYourPassword(getAccount());

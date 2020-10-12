@@ -165,7 +165,9 @@ public class AccountViewImpl extends BaseViewImpl<AccountDTO, AccountModel> impl
         String answer = SingletonScanner.readLine();
 
         if (answer.equals("YES")) {
-            return model.deleteOne(account);
+            String result = model.deleteOne(account);
+            account = null;
+            return result;
         }
         return "You Cancelled this operation!";
     }
