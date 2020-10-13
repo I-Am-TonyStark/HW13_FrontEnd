@@ -46,7 +46,7 @@ public final class UserDTO implements Serializable {
     }
 
     public void setUsername(String username) throws InValidDataException {
-        if (!password.matches("[a-zA-Z0-9]{3,}")) {
+        if (!username.matches("^(?!.*\\.\\.)(?!.*\\.$)[^\\W][\\w.]{0,29}$")) {
             throw new InValidDataException("Password");
         }
         this.username = username;
@@ -56,11 +56,15 @@ public final class UserDTO implements Serializable {
         return password;
     }
 
-    public void setPassword(String password) throws InValidDataException {
-        if (!password.matches("[a-zA-Z0-9]{3,}")) {
+    public void setAndHashPassword(String password) throws InValidDataException {
+        if (!password.matches("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$")) {
             throw new InValidDataException("Password");
         }
-        this.password = SecurityManager.getPasswordHash(password);
+        this.setPassword(SecurityManager.getPasswordHash(password));
+    }
+
+    public void setPassword(String hashedPassword) {
+        this.password = hashedPassword;
     }
 
     public String getAboutMe() {
@@ -82,5 +86,19 @@ public final class UserDTO implements Serializable {
         if (obj == null || getClass() != obj.getClass()) return false;
         UserDTO user = (UserDTO) obj;
         return this.hashCode() == user.hashCode();
+    }
+
+    public UserDTO copy(){
+        UserDTO copyUser = new UserDTO();
+        try {
+            copyUser.setFirstName(this.getFirstName());
+            copyUser.setLastName(this.getLastName());
+            copyUser.setAboutMe(this.getAboutMe());
+            copyUser.setUsername(this.getUsername());
+            copyUser.setPassword(this.getPassword());
+        } catch (InValidDataException e) {
+            e.printStackTrace();
+        }
+        return copyUser;
     }
 }

@@ -39,7 +39,7 @@ public class PostViewImpl extends BaseViewImpl<PostDTO, PostModel> implements Po
                 DialogProvider.createAndShowTerminalMessage("%s%n", model.saveOne(post));
                 return Optional.of(post);
             } catch (InValidDataException e) {
-                DialogProvider.createAndShowTerminalMessage("%s %s%s%n", "Wrong entered data format for", e.getMessage(), "!");
+                DialogProvider.createAndShowTerminalMessage("%s %s%s%n%n", "Wrong entered data format for", e.getMessage(), "!");
             }
         }
         return Optional.empty();
@@ -68,7 +68,7 @@ public class PostViewImpl extends BaseViewImpl<PostDTO, PostModel> implements Po
 
                 return model.updateOne(post);
             } catch (InValidDataException e) {
-                DialogProvider.createAndShowTerminalMessage("%s %s%s%n", "Wrong entered data format for", e.getMessage(), "!");
+                DialogProvider.createAndShowTerminalMessage("%s %s%s%n%n", "Wrong entered data format for", e.getMessage(), "!");
             }
         }
         return "You Cancelled this operation!";

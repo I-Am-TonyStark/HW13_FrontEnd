@@ -39,7 +39,7 @@ public class AccountViewImpl extends BaseViewImpl<AccountDTO, AccountModel> impl
                 user.setAboutMe(SingletonScanner.readParagraph());
 
                 DialogProvider.createAndShowTerminalMessage("%s", "Password: ");
-                user.setPassword(SingletonScanner.readLine());
+                user.setAndHashPassword(SingletonScanner.readLine());
 
                 DialogProvider.createAndShowTerminalMessage("%s", "Username: ");
                 String username = SingletonScanner.readLine();
@@ -55,7 +55,7 @@ public class AccountViewImpl extends BaseViewImpl<AccountDTO, AccountModel> impl
                 DialogProvider.createAndShowTerminalMessage("%s%n", model.saveOne(account));
                 return Optional.of(account);
             } catch (InValidDataException e) {
-                DialogProvider.createAndShowTerminalMessage("%s %s%s%n", "Wrong entered data format for", e.getMessage(), "!");
+                DialogProvider.createAndShowTerminalMessage("%s %s%s%n%n", "Wrong entered data format for", e.getMessage(), "!");
             }
         }
         return Optional.empty();
@@ -71,7 +71,7 @@ public class AccountViewImpl extends BaseViewImpl<AccountDTO, AccountModel> impl
                 user.setUsername(username);
                 return model.findOneActiveAccountByUsername(username);
             } catch (InValidDataException e) {
-                DialogProvider.createAndShowTerminalMessage("%s %s%s%n", "Wrong entered data format for", e.getMessage(), "!");
+                DialogProvider.createAndShowTerminalMessage("%s %s%s%n%n", "Wrong entered data format for", e.getMessage(), "!");
             }
         }
     }
@@ -85,7 +85,7 @@ public class AccountViewImpl extends BaseViewImpl<AccountDTO, AccountModel> impl
                 if (oldPassword.equalsIgnoreCase("esc")) {
                     break;
                 } else if (!SecurityManager.checkPasswordHash(oldPassword, account.getUser().getPassword())) {
-                    DialogProvider.createAndShowTerminalMessage("%s%n", "Wrong Password!");
+                    DialogProvider.createAndShowTerminalMessage("%s%n%n", "Wrong Password!");
                     continue;
                 }
                 DialogProvider.createAndShowTerminalMessage("%s", "New Password: ");
@@ -93,11 +93,11 @@ public class AccountViewImpl extends BaseViewImpl<AccountDTO, AccountModel> impl
                 if (newPassword.equalsIgnoreCase("esc")) {
                     break;
                 }
-                account.getUser().setPassword(newPassword);
+                account.getUser().setAndHashPassword(newPassword);
 
                 return model.updateOne(account);
             } catch (InValidDataException e) {
-                DialogProvider.createAndShowTerminalMessage("%s %s%s%n", "Wrong entered data format for", e.getMessage(), "!");
+                DialogProvider.createAndShowTerminalMessage("%s %s%s%n%n", "Wrong entered data format for", e.getMessage(), "!");
             }
         }
         return "You Cancelled this operation!";
@@ -105,7 +105,7 @@ public class AccountViewImpl extends BaseViewImpl<AccountDTO, AccountModel> impl
 
     @Override
     public String updateExistActiveAccountInformation(AccountDTO account) {
-        UserDTO user = account.getUser();
+        UserDTO user = account.getUser().copy();
         outer:
         while (true) {
             try {
@@ -115,7 +115,7 @@ public class AccountViewImpl extends BaseViewImpl<AccountDTO, AccountModel> impl
                     break;
                 }
                 if (!newFirstName.equalsIgnoreCase("pass")) {
-                    user.setUsername(newFirstName);
+                    user.setFirstName(newFirstName);
                 }
 
                 DialogProvider.createAndShowTerminalMessage("%s (old = %s): ", "New Last Name", user.getLastName());
@@ -128,7 +128,7 @@ public class AccountViewImpl extends BaseViewImpl<AccountDTO, AccountModel> impl
                 }
 
                 DialogProvider.createAndShowTerminalMessage("%s (old = %s): ", "New About You", user.getAboutMe());
-                String newAboutMe = SingletonScanner.readLine();
+                String newAboutMe = SingletonScanner.readParagraph();
                 if (newAboutMe.equalsIgnoreCase("esc")) {
                     break;
                 }
@@ -153,7 +153,7 @@ public class AccountViewImpl extends BaseViewImpl<AccountDTO, AccountModel> impl
                 account.setUser(user);
                 return model.updateOne(account);
             } catch (InValidDataException e) {
-                DialogProvider.createAndShowTerminalMessage("%s %s%s%n", "Wrong entered data format for", e.getMessage(), "!");
+                DialogProvider.createAndShowTerminalMessage("%s %s%s%n%n", "Wrong entered data format for", e.getMessage(), "!");
             }
         }
         return "You Cancelled this operation!";

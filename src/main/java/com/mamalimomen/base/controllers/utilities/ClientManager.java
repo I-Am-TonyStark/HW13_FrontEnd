@@ -2,6 +2,7 @@ package com.mamalimomen.base.controllers.utilities;
 
 import com.mamalimomen.base.controllers.guis.DialogProvider;
 import com.mamalimomen.base.dtos.BaseDTO;
+import com.mamalimomen.controllers.utilities.AppManager;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -13,6 +14,7 @@ public final class ClientManager {
     private ObjectOutputStream outputObject;
     private ObjectInputStream inputObject;
     private final short port = 8000;
+    private final String server = "localhost";
 
     public ClientManager() {
         this.turnOnClient();
@@ -20,12 +22,13 @@ public final class ClientManager {
 
     private void turnOnClient() {
         try {
-            socket = new Socket("localhost", port);
-            DialogProvider.createAndShowTerminalMessage("%s %d%n", "Connect to server by port", port);
+            socket = new Socket(server, port);
+            DialogProvider.createAndShowTerminalMessage("%s %s %s %d%n", "Connect to", server, "by port", port);
             outputObject = new ObjectOutputStream(socket.getOutputStream());
             inputObject = new ObjectInputStream(socket.getInputStream());
         } catch (IOException e) {
-            e.printStackTrace();
+            DialogProvider.createAndShowErrorDialog("Connection is lost!", "Server not found");
+            System.exit(-1);
         }
     }
 
@@ -44,7 +47,8 @@ public final class ClientManager {
             outputObject.writeObject(request);
             return inputObject.readObject();
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            DialogProvider.createAndShowErrorDialog("Connection is lost!", "Server not found");
+            System.exit(-1);
         }
         return null;
     }

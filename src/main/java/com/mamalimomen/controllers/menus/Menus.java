@@ -79,7 +79,6 @@ public final class Menus {
 
     public static <A extends AccountDTO> void seeYourPosts(A account) {
         while (true) {
-            DialogProvider.createAndShowTerminalMessage("%n====== %s ======%n", "SEE YOUR POSTS");
             PostView postView = AppManager.getView(Views.POST_VIEW);
             List<PostDTO> posts = postView.retrieveManyExistPosts(account);
 
@@ -89,6 +88,7 @@ public final class Menus {
             }
 
             while (true) {
+                DialogProvider.createAndShowTerminalMessage("%n====== %s ======%n", "SEE YOUR POSTS");
                 try {
                     for (int i = 1; i <= posts.size(); i++) {
                         DialogProvider.createAndShowTerminalMessage("%d. %s%n", i, posts.get(i - 1));
@@ -100,7 +100,7 @@ public final class Menus {
                     DialogProvider.createAndShowTerminalMessage("%s%n", "Wrong format, enter an integer number please!");
                     SingletonScanner.clearBuffer();
                 } catch (IndexOutOfBoundsException e) {
-                    break;
+                    return;
                 }
             }
         }
