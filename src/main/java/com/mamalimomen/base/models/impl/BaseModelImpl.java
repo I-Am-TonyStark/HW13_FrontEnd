@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class BaseModelImpl<D extends BaseDTO<Long>> implements BaseModel<D> {
+public abstract class BaseModelImpl<D extends BaseDTO> implements BaseModel<D> {
     private final ClientManager cm;
 
     public BaseModelImpl(ClientManager cm) {

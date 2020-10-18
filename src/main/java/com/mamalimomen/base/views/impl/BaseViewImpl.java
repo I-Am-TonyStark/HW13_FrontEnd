@@ -7,7 +7,7 @@ import com.mamalimomen.base.views.BaseView;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class BaseViewImpl<D extends BaseDTO<Long>, MOD extends BaseModel<D>> implements BaseView<D> {
+public abstract class BaseViewImpl<D extends BaseDTO, MOD extends BaseModel<D>> implements BaseView<D> {
     protected final MOD model;
 
     public BaseViewImpl(MOD model) {

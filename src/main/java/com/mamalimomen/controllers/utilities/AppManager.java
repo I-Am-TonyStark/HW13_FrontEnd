@@ -13,7 +13,7 @@ import java.util.Map;
 
 public final class AppManager {
     private static final List<ClientManager> cmList = new ArrayList<>();
-    private static final Map<Views, BaseView<? extends BaseDTO<Long>>> viewMapper = new HashMap<>();
+    private static final Map<Views, BaseView<? extends BaseDTO>> viewMapper = new HashMap<>();
 
     private AppManager() {
     }
@@ -29,7 +29,7 @@ public final class AppManager {
         MenuFactory.getMenu(null).routerMenu();
     }
 
-    public static synchronized <D extends BaseDTO<Long>, S extends BaseView<D>> S getView(Views view) {
+    public static synchronized <D extends BaseDTO, S extends BaseView<D>> S getView(Views view) {
         return (S) viewMapper.get(view);
     }
 

@@ -141,12 +141,14 @@ public class AccountViewImpl extends BaseViewImpl<AccountDTO, AccountModel> impl
                     String newUsername = SingletonScanner.readLine();
                     if (newUsername.equalsIgnoreCase("esc")) {
                         break outer;
+                    } else if (newUsername.equalsIgnoreCase("pass")) {
+                        break;
                     }
                     user.setUsername(newUsername);
                     if (model.findOneActiveAccountByUsername(newUsername).isPresent()) {
                         DialogProvider.createAndShowTerminalMessage("%s%n", "This Username has taken already!");
                     } else {
-                        break;
+                        break outer;
                     }
                 }
 
@@ -166,7 +168,7 @@ public class AccountViewImpl extends BaseViewImpl<AccountDTO, AccountModel> impl
 
         if (answer.equals("YES")) {
             String result = model.deleteOne(account);
-            account = null;
+            account.setId(-1L);
             return result;
         }
         return "You Cancelled this operation!";

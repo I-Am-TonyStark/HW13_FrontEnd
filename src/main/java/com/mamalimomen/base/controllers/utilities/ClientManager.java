@@ -42,7 +42,7 @@ public final class ClientManager {
         }
     }
 
-    public Object sendRequestAndGetAnswer(MAMP<? extends BaseDTO<Long>> request) {
+    public Object sendRequestAndGetAnswer(MAMP<? extends BaseDTO> request) {
         try {
             outputObject.writeObject(request);
             return inputObject.readObject();

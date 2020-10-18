@@ -5,7 +5,7 @@ import com.mamalimomen.base.dtos.BaseDTO;
 import java.util.List;
 import java.util.Optional;
 
-public interface BaseModel<D extends BaseDTO<Long>> {
+public interface BaseModel<D extends BaseDTO> {
     void closeClientManger();
 
     String saveOne(D d);
